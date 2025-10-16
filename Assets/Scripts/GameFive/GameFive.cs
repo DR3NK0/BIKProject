@@ -1,15 +1,16 @@
 using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public class GameTwo : MonoBehaviour
+public class GameFive : MonoBehaviour
 {
     [SerializeField] GameController gameController;
     [SerializeField] dialogueSystem dialogueSM;
     [SerializeField] SceneController sceneController;
 
-    [SerializeField] GameObject LevelTwoObject;
+    [SerializeField] GameObject LevelFiveObject;
     [SerializeField] GameObject finishKey;
-    [SerializeField] GameObject[] MailGameObjects;
+    [SerializeField] GameObject[] vegetables;
 
     bool gameStarted = false;
 
@@ -21,10 +22,10 @@ public class GameTwo : MonoBehaviour
 
     void checkStart()
     {
-        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelTwoObject.activeInHierarchy)
+        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelFiveObject.activeInHierarchy)
         {
             gameStarted = true;
-            LevelTwoObject.SetActive(true);
+            LevelFiveObject.SetActive(true);
         }
     }
 
@@ -39,13 +40,12 @@ public class GameTwo : MonoBehaviour
 
     public void checkIfBeaten()
     {
-        if (checkIfAllCorrect() && gameStarted)
+        if (checkIfAllClosed() && gameStarted)
         {
             gameController.setGameFinished(true);
             finishKey.SetActive(true);
 
-            for (int i = 0; i < MailGameObjects.Length; i++)
-                MailGameObjects[i].GetComponent<Mail>().closeMailUI();
+            LevelFiveObject.SetActive(false);
 
             if (!dialogueSM.checkIfDialogEnded())
             {
@@ -57,23 +57,23 @@ public class GameTwo : MonoBehaviour
 
     IEnumerator goToMenu()
     {
-        PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
-
         yield return new WaitForSeconds(3);
 
         sceneController.loadScene("Menu");
     }
 
-    bool checkIfAllCorrect()
+    bool checkIfAllClosed()
     {
-        bool allCorrect = true;
+        bool deactivated = true;
 
-        for(int i = 0;i< MailGameObjects.Length; i++)
+        foreach (GameObject go in vegetables)
         {
-            if (MailGameObjects[i].GetComponent<Mail>().mailBelongsTo != MailGameObjects[i].GetComponent<Mail>().mailIndex)
-                allCorrect = false;
+            if (go.activeInHierarchy)
+                deactivated = false;
         }
 
-        return allCorrect;
+        return deactivated;
     }
+
+    public int getVegetablesLenght() => vegetables.Length;
 }

@@ -1,15 +1,15 @@
 using System.Collections;
 using UnityEngine;
 
-public class GameTwo : MonoBehaviour
+public class GamFour : MonoBehaviour
 {
     [SerializeField] GameController gameController;
     [SerializeField] dialogueSystem dialogueSM;
     [SerializeField] SceneController sceneController;
 
-    [SerializeField] GameObject LevelTwoObject;
+    [SerializeField] GameObject LevelFourObject;
     [SerializeField] GameObject finishKey;
-    [SerializeField] GameObject[] MailGameObjects;
+    [SerializeField] GameObject[] windows;
 
     bool gameStarted = false;
 
@@ -21,10 +21,10 @@ public class GameTwo : MonoBehaviour
 
     void checkStart()
     {
-        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelTwoObject.activeInHierarchy)
+        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelFourObject.activeInHierarchy)
         {
             gameStarted = true;
-            LevelTwoObject.SetActive(true);
+            LevelFourObject.SetActive(true);
         }
     }
 
@@ -39,13 +39,12 @@ public class GameTwo : MonoBehaviour
 
     public void checkIfBeaten()
     {
-        if (checkIfAllCorrect() && gameStarted)
+        if (checkIfAllClosed() && gameStarted)
         {
             gameController.setGameFinished(true);
             finishKey.SetActive(true);
 
-            for (int i = 0; i < MailGameObjects.Length; i++)
-                MailGameObjects[i].GetComponent<Mail>().closeMailUI();
+            LevelFourObject.SetActive(false);
 
             if (!dialogueSM.checkIfDialogEnded())
             {
@@ -64,13 +63,13 @@ public class GameTwo : MonoBehaviour
         sceneController.loadScene("Menu");
     }
 
-    bool checkIfAllCorrect()
+    bool checkIfAllClosed()
     {
         bool allCorrect = true;
 
-        for(int i = 0;i< MailGameObjects.Length; i++)
+        for (int i = 0; i < windows.Length; i++)
         {
-            if (MailGameObjects[i].GetComponent<Mail>().mailBelongsTo != MailGameObjects[i].GetComponent<Mail>().mailIndex)
+            if (windows[i].activeInHierarchy)
                 allCorrect = false;
         }
 

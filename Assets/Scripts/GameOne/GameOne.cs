@@ -21,7 +21,7 @@ public class GameOne : MonoBehaviour
 
     void checkStart()
     {
-        if (!gameStarted && gameController.gameStarted && !LevelOneObject.activeInHierarchy)
+        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelOneObject.activeInHierarchy)
         {
             gameStarted = true;
             LevelOneObject.SetActive(true);

@@ -26,7 +26,15 @@ public class Objectives : MonoBehaviour
             PlayerPrefs.SetInt("Level", 1);
         }
 
-        if (Level >= 5) return;
+        if (Level > 5)
+        {
+            for (int i = 0; i < LevelDoors.Length; i++)
+                LevelDoors[i].GetComponent<Button>().interactable = true;
+
+            ObjectiveText.text = "All levels cleared!";
+
+            return;
+        }
 
         ObjectiveText.text = oSentences[Level - 1];
 
