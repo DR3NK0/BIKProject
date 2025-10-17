@@ -1,4 +1,4 @@
-[O] MK Go To the kitchen #1
+[O] Go To the kitchen #1
 [D] Mom: kids are here!
 [D] Kids: Hi mom!
 [Q] Have you eaten?
@@ -9,7 +9,7 @@
 [P] Kids: YAY LETS GO PLAY!!!
 [D] Finally!
 -
-[O] MK Go To the garden #2
+[O] Go To the garden #2
 [D] Mom: kids are here!
 [D] Kids: Hi mom!
 [Q] Have you eaten?
@@ -20,7 +20,7 @@
 [P] Kids: YAY LETS GO PLAY!!!
 [D] Finally!
 -
-[O] MK Go To the garden #3
+[O] Go To the garden #3
 [D] Mom: kids are here!
 [D] Kids: Hi mom!
 [Q] Have you eaten?
@@ -31,7 +31,7 @@
 [P] Kids: YAY LETS GO PLAY!!!
 [D] Finally!
 -
-[O] MK Go To the garden #4
+[O] Go To the garden #4
 [D] Mom: kids are here!
 [D] Kids: Hi mom!
 [Q] Have you eaten?
@@ -42,7 +42,7 @@
 [P] Kids: YAY LETS GO PLAY!!!
 [D] Finally!
 -
-[O] MK Go To the garden #5
+[O] Go To the garden #5
 [D] Mom: kids are here!
 [D] Kids: Hi mom!
 [Q] Have you eaten?

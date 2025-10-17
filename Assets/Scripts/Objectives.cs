@@ -44,6 +44,16 @@ public class Objectives : MonoBehaviour
         LevelDoors[Level - 1].GetComponent<Button>().interactable = true;
     }
 
+    public void loadSentences() 
+    {
+        List<string> oSentences = ParseOLines(PlayerPrefs.GetString("Content"));
+
+        if(Level > 5)
+            ObjectiveText.text = "All levels cleared!";
+        else
+            ObjectiveText.text = oSentences[Level - 1];
+    }
+
     List<string> ParseOLines(string input)
     {
         List<string> result = new List<string>();

@@ -57,6 +57,8 @@ public class GameFive : MonoBehaviour
 
     IEnumerator goToMenu()
     {
+        PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
+
         yield return new WaitForSeconds(3);
 
         sceneController.loadScene("Menu");
