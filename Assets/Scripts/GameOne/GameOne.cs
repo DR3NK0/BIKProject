@@ -13,11 +13,7 @@ public class GameOne : MonoBehaviour
 
     bool gameStarted = false;
 
-    void Update()
-    {
-        checkStart();
-        checkFinish();
-    }
+    void Update() => checkStart();
 
     void checkStart()
     {
@@ -28,15 +24,6 @@ public class GameOne : MonoBehaviour
         }
     }
 
-    void checkFinish()
-    {
-        if(gameStarted && gameController.gameFinished && dialogueSM.checkIfDialogEnded())
-        {
-            gameStarted = false;
-            StartCoroutine(goToMenu());
-        }
-    }
-
     public void checkIfBeaten()
     {
         if(checkDraggableObjects() && gameStarted)
@@ -44,18 +31,20 @@ public class GameOne : MonoBehaviour
             gameController.setGameFinished(true);
             finishKey.SetActive(true);
 
+            PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
+
             if (!dialogueSM.checkIfDialogEnded())
             {
                 gameController.controldialoguePanel(true);
                 dialogueSM.startTyping();
             }
+            else
+                StartCoroutine(goToMenu());
         }
     }
 
     IEnumerator goToMenu()
     {
-        PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
-
         yield return new WaitForSeconds(3);
 
         sceneController.loadScene("Menu");

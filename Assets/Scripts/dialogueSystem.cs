@@ -20,8 +20,11 @@ public class DialogueAnswer
 public class dialogueSystem : MonoBehaviour
 {
     [SerializeField] GameController gameController;
+    [SerializeField] SceneController sceneController;
 
     [Space]
+
+    [SerializeField] TextMeshProUGUI objectiveText;
 
     [SerializeField] TextMeshProUGUI TextArea;
 
@@ -44,6 +47,7 @@ public class dialogueSystem : MonoBehaviour
 
     void Start()
     {
+        objectiveText.text = PlayerPrefs.GetString("Objective");
         ParseText(PlayerPrefs.GetString("Content"));
         currentLevel = PlayerPrefs.GetInt("Level") - 1;
         startTyping();
@@ -51,8 +55,16 @@ public class dialogueSystem : MonoBehaviour
 
     public void startTyping()
     {
+        if (checkReturnObjective())
+            checkIfObjective();
+        else
+        {
+            chatIndex++;
+            checkIfObjective();
+        }
+
+
         TextArea.text = "";
-        chatIndex++;
         dialogue = levels[currentLevel][chatIndex].text.ToString();
         typingCoroutine = StartCoroutine(Typing());
     }
@@ -118,7 +130,7 @@ public class dialogueSystem : MonoBehaviour
                 if (currentQuestion == null) continue;
 
                 string type = line[1].ToString();
-                string[] parts = line.Substring(3).Trim().Split('=');
+                string[] parts = line.Substring(3).Trim().Split("->");
 
                 DialogueAnswer answer = new DialogueAnswer
                 {
@@ -172,11 +184,16 @@ public class dialogueSystem : MonoBehaviour
                 {
                     if (!gameController.gameStarted && !gameController.gameFinished)
                         gameController.setGameStarted(true);
+                    else
+                        sceneController.loadScene("Menu");
 
                     return;
                 }
 
                 chatIndex++;
+
+                checkIfObjective();
+
                 TextArea.text = "";
                 dialogue = levels[currentLevel][chatIndex].text;
                 selected = -1;
@@ -189,11 +206,16 @@ public class dialogueSystem : MonoBehaviour
             {
                 if (!gameController.gameStarted && !gameController.gameFinished)
                     gameController.setGameStarted(true);
+                else
+                    sceneController.loadScene("Menu");
 
                 return;
             }
 
             chatIndex++;
+
+            checkIfObjective();
+
             TextArea.text = "";
             dialogue = levels[currentLevel][chatIndex].text;
             typingCoroutine = StartCoroutine(Typing());
@@ -205,6 +227,9 @@ public class dialogueSystem : MonoBehaviour
             else
             {
                 chatIndex++;
+
+                checkIfObjective();
+
                 TextArea.text = "";
                 dialogue = levels[currentLevel][chatIndex].text;
                 typingCoroutine = StartCoroutine(Typing());
@@ -220,6 +245,28 @@ public class dialogueSystem : MonoBehaviour
             return false;
     }
 
+    public void checkIfObjective()
+    {
+        if (levels[currentLevel][chatIndex].type == "O")
+        {
+            objectiveText.text = levels[currentLevel][chatIndex].text;
+            PlayerPrefs.SetString("Objective", objectiveText.text);
+
+            if (checkIfDialogEnded())
+            {
+                if (!gameController.gameStarted && !gameController.gameFinished)
+                    gameController.setGameStarted(true);
+                else
+                    sceneController.loadScene("Menu");
+
+                return;
+            }
+
+            chatIndex++;
+        }
+    }
+    public bool checkReturnObjective() => levels[currentLevel][chatIndex].type == "O";
+
     IEnumerator Typing()
     {
         foreach (char letter in dialogue.ToCharArray())
@@ -227,14 +274,7 @@ public class dialogueSystem : MonoBehaviour
             TextArea.text += letter;
             yield return new WaitForSeconds(wordSpeed);
         }
-        if (!checkIfDialogEnded())
-            ContinueButton.SetActive(true);
-        else
-        {
-            if (!gameController.gameFinished)
-                ContinueButton.SetActive(true);
-        }
-
+        ContinueButton.SetActive(true);
         typingCoroutine = null;
     }
 }

@@ -2,53 +2,60 @@
 [D] Mom: kids are here!
 [D] Kids: Hi mom!
 [Q] Have you eaten?
-[F] No = U Must eat!
-[T] Yes! = Perfect Lets go!
-[F] Im vegan = WTF?
+[F] No -> U Must eat!
+[T] Yes! -> Perfect Lets go!
+[F] Im vegan -> WTF?
 [D] Mom: Thats all kids!
 [P] Kids: YAY LETS GO PLAY!!!
 [D] Finally!
--
 [O] MK Go To the garden #2
+-
+[O] MK Go To the kitchen #1
 [D] Mom: kids are here!
 [D] Kids: Hi mom!
 [Q] Have you eaten?
-[F] No = U Must eat!
-[T] Yes! = Perfect Lets go!
-[F] Im vegan = WTF?
+[F] No -> U Must eat!
+[T] Yes! -> Perfect Lets go!
+[F] Im vegan -> WTF?
 [D] Mom: Thats all kids!
-[P] Kids: YAY LETS GO PLAY!!!
-[D] Finally!
--
 [O] MK Go To the garden #3
-[D] Mom: kids are here!
-[D] Kids: Hi mom!
-[Q] Have you eaten?
-[F] No = U Must eat!
-[T] Yes! = Perfect Lets go!
-[F] Im vegan = WTF?
-[D] Mom: Thats all kids!
 [P] Kids: YAY LETS GO PLAY!!!
 [D] Finally!
 -
+[O] MK Go To the kitchen #1
+[D] Mom: kids are here!
+[D] Kids: Hi mom!
+[Q] Have you eaten?
+[F] No -> U Must eat!
+[T] Yes! -> Perfect Lets go!
+[F] Im vegan -> WTF?
 [O] MK Go To the garden #4
-[D] Mom: kids are here!
-[D] Kids: Hi mom!
-[Q] Have you eaten?
-[F] No = U Must eat!
-[T] Yes! = Perfect Lets go!
-[F] Im vegan = WTF?
 [D] Mom: Thats all kids!
 [P] Kids: YAY LETS GO PLAY!!!
 [D] Finally!
+[O] MK Go To the garden #4
 -
-[O] MK Go To the garden #5
+[O] MK Go To the kitchen #1
 [D] Mom: kids are here!
 [D] Kids: Hi mom!
 [Q] Have you eaten?
-[F] No = U Must eat!
-[T] Yes! = Perfect Lets go!
-[F] Im vegan = WTF?
+[F] No -> U Must eat!
+[T] Yes! -> Perfect Lets go!
+[F] Im vegan -> WTF?
+[O] MK Go To the garden #5
+[D] Mom: Thats all kids!
+[P] Kids: YAY LETS GO PLAY!!!
+[D] Finally!
+[O] NEW #3
+-
+[O] MK Go To the kitchen #1
+[D] Mom: kids are here!
+[D] Kids: Hi mom!
+[Q] Have you eaten?
+[F] No -> U Must eat!
+[T] Yes! -> Perfect Lets go!
+[F] Im vegan -> WTF?
+[O] MK All Tasks completed #5
 [D] Mom: Thats all kids!
 [P] Kids: YAY LETS GO PLAY!!!
 [D] Finally!

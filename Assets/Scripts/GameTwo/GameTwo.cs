@@ -13,11 +13,7 @@ public class GameTwo : MonoBehaviour
 
     bool gameStarted = false;
 
-    void Update()
-    {
-        checkStart();
-        checkFinish();
-    }
+    void Update() => checkStart();
 
     void checkStart()
     {
@@ -25,15 +21,6 @@ public class GameTwo : MonoBehaviour
         {
             gameStarted = true;
             LevelTwoObject.SetActive(true);
-        }
-    }
-
-    void checkFinish()
-    {
-        if (gameStarted && gameController.gameFinished && dialogueSM.checkIfDialogEnded())
-        {
-            gameStarted = false;
-            StartCoroutine(goToMenu());
         }
     }
 
@@ -47,18 +34,20 @@ public class GameTwo : MonoBehaviour
             for (int i = 0; i < MailGameObjects.Length; i++)
                 MailGameObjects[i].GetComponent<Mail>().closeMailUI();
 
+            PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
+
             if (!dialogueSM.checkIfDialogEnded())
             {
                 gameController.controldialoguePanel(true);
                 dialogueSM.startTyping();
             }
+            else
+                StartCoroutine(goToMenu());
         }
     }
 
     IEnumerator goToMenu()
     {
-        PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
-
         yield return new WaitForSeconds(3);
 
         sceneController.loadScene("Menu");

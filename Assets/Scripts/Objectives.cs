@@ -1,12 +1,11 @@
-using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Objectives : MonoBehaviour
 {
-    List<string> oSentences = new List<string>();
-    int Level = 0;
+    int Level = 1;
 
     [SerializeField] TextMeshProUGUI ObjectiveText;
 
@@ -16,7 +15,7 @@ public class Objectives : MonoBehaviour
 
     public void getObjectives()
     {
-        List<string> oSentences = ParseOLines(PlayerPrefs.GetString("Content"));
+        getFirstObjective();
 
         if (PlayerPrefs.HasKey("Level"))
             Level = PlayerPrefs.GetInt("Level");
@@ -31,12 +30,8 @@ public class Objectives : MonoBehaviour
             for (int i = 0; i < LevelDoors.Length; i++)
                 LevelDoors[i].GetComponent<Button>().interactable = true;
 
-            ObjectiveText.text = "All levels cleared!";
-
             return;
         }
-
-        ObjectiveText.text = oSentences[Level - 1];
 
         for (int i = 0; i < LevelDoors.Length; i++)
             LevelDoors[i].GetComponent<Button>().interactable = false;
@@ -44,36 +39,21 @@ public class Objectives : MonoBehaviour
         LevelDoors[Level - 1].GetComponent<Button>().interactable = true;
     }
 
-    public void loadSentences() 
+    public void getFirstObjective()
     {
-        List<string> oSentences = ParseOLines(PlayerPrefs.GetString("Content"));
-
-        if(Level > 5)
-            ObjectiveText.text = "All levels cleared!";
-        else
-            ObjectiveText.text = oSentences[Level - 1];
-    }
-
-    List<string> ParseOLines(string input)
-    {
-        List<string> result = new List<string>();
-
-        string[] lines = input.Split('\n');
-
-        foreach (string rawLine in lines)
+        if (!PlayerPrefs.HasKey("Objective"))
         {
-            string line = rawLine.Trim();
-
-            if (string.IsNullOrWhiteSpace(line) || line == "-")
-                continue;
-
-            if (line.StartsWith("[O]"))
-            {
-                string clean = line.Substring(3).Trim();
-                result.Add(clean);
-            }
+            string firstO = PlayerPrefs.GetString("Content").Split('\n').First(l => l.StartsWith("[O]")).Substring(3).Trim();
+            PlayerPrefs.SetString("Objective", firstO);
         }
 
-        return result;
+        ObjectiveText.text = PlayerPrefs.GetString("Objective");
+    }
+
+    public void switchLanguageObjective()
+    {
+        string firstO = PlayerPrefs.GetString("Content").Split('\n').First(l => l.StartsWith("[O]")).Substring(3).Trim();
+        PlayerPrefs.SetString("Objective", firstO);
+        ObjectiveText.text = PlayerPrefs.GetString("Objective");
     }
 }

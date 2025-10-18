@@ -75,6 +75,6 @@ public class loadTextAssets : MonoBehaviour
         PlayerPrefs.SetInt("Language", selectedLanguage);
         StartCoroutine(loadLanguage());
         switchLanguageButtons();
-        o.loadSentences();
+        o.switchLanguageObjective();
     }
 }
