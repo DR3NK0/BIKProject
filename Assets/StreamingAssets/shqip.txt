@@ -1,54 +1,28 @@
-[O] SQ Go To the kitchen #1
-[D] Mom: kids are here!
-[D] Kids: Hi mom!
-[Q] Have you eaten?
-[F] No = U Must eat!
-[T] Yes! = Perfect Lets go!
-[F] Im vegan = WTF?
-[D] Mom: Thats all kids!
-[P] Kids: YAY LETS GO PLAY!!!
-[D] Finally!
--
-[O] SQ Go To the garden #2
-[D] Mom: kids are here!
-[D] Kids: Hi mom!
-[Q] Have you eaten?
-[F] No = U Must eat!
-[T] Yes! = Perfect Lets go!
-[F] Im vegan = WTF?
-[D] Mom: Thats all kids!
-[P] Kids: YAY LETS GO PLAY!!!
-[D] Finally!
--
-[O] SQ Go To the garden #3
-[D] Mom: kids are here!
-[D] Kids: Hi mom!
-[Q] Have you eaten?
-[F] No = U Must eat!
-[T] Yes! = Perfect Lets go!
-[F] Im vegan = WTF?
-[D] Mom: Thats all kids!
-[P] Kids: YAY LETS GO PLAY!!!
-[D] Finally!
--
-[O] SQ Go To the garden #4
-[D] Mom: kids are here!
-[D] Kids: Hi mom!
-[Q] Have you eaten?
-[F] No = U Must eat!
-[T] Yes! = Perfect Lets go!
-[F] Im vegan = WTF?
-[D] Mom: Thats all kids!
-[P] Kids: YAY LETS GO PLAY!!!
-[D] Finally!
--
-[O] SQ Go To the garden #5
-[D] Mom: kids are here!
-[D] Kids: Hi mom!
-[Q] Have you eaten?
-[F] No = U Must eat!
-[T] Yes! = Perfect Lets go!
-[F] Im vegan = WTF?
-[D] Mom: Thats all kids!
-[P] Kids: YAY LETS GO PLAY!!!
-[D] Finally!
+[O] EN Find the computer password /MK Find the computer password/SQ Find the computer password
+[D] <color=#FF4500>Mom:</color> The computer is locked again... I can’t open anything!/MK Find the computer password/SQ Find the computer password
+[D] <color=#00BFFF>Marko:</color> Maybe the Goalkeeper changed it before he left./MK Find the computer password/SQ Find the computer password
+[Q] What makes a good password?/MK Find the computer password/SQ Find the computer password
+[F] <color=#FFD700>Petar:</color> Use 12345! Easy to remember! -> <color=#FF4500>Mom:</color> That’s too easy—anyone could guess that./MK Find the computer password/SQ Find the computer password
+[T] <color=#00BFFF>Marko:</color> Mix letters, numbers, and symbols! -> <color=#FF4500>Mom:</color> Perfect! That’s strong and hard to hack.
+[F] <color=#FF69B4>Ana:</color> Maybe use our pet’s name? -> <color=#FF4500>Mom:</color> Oh no, people could guess that from our pictures.
+
+[D] <color=#FF4500>Mom:</color> But how will I remember such a strange password?
+[D] <color=#00BFFF>Marko:</color> You could write it down safely or use hints only you understand.
+
+[Q] Should we tell someone the new password?
+[F] <color=#FFD700>Petar:</color> Sure! I’ll tell my friends—it’s funny. -> <color=#FF4500>Mom:</color> No way! Then it’s not private anymore.
+[T] <color=#FF69B4>Ana:</color> No, passwords are secret. -> <color=#FF4500>Mom:</color> Correct! Keep it safe and never share it.
+[F] <color=#00BFFF>Marko:</color> Maybe we post it online so we don’t forget. -> <color=#FF4500>Mom:</color> Oh dear! That’s the worst place to keep it!
+
+[D] <color=#FF4500>Mom:</color> The screen says “Enter password”… let’s test what we learned!
+
+[P] <color=#AAAAAA>Computer:</color> Mini-game start — PASSWORD_PUZZLE
+
+[O] MK Check the computer for clues
+[D] <color=#AAAAAA>Computer:</color> Access granted! Welcome back, Goalkeeper.
+[D] <color=#FF69B4>Ana:</color> Look! There’s an email from someone called Chat Woman.
+[D] <color=#00BFFF>Marko:</color> It says “Don’t forget my CD.” That must be our next clue.
+[D] <color=#FFD700>Petar:</color> So the Goalkeeper was chatting instead of keeping goals?
+[D] <color=#FF4500>Mom:</color> Thank you, kids. You’ve been real password heroes!
+
+[O] MK Find Chat Woman’s apartment

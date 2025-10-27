@@ -56,4 +56,9 @@ public class Objectives : MonoBehaviour
         PlayerPrefs.SetString("Objective", firstO);
         ObjectiveText.text = PlayerPrefs.GetString("Objective");
     }
+    public void setLevel(int l)
+    {
+        Level = l;
+        PlayerPrefs.SetInt("Level", Level);
+    }
 }

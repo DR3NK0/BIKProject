@@ -35,9 +35,9 @@ public class loadTextAssets : MonoBehaviour
         string path = "";
 
         if(selectedLanguage == 0)
-            path = System.IO.Path.Combine(Application.streamingAssetsPath, "macedonian.txt");
-        else if(selectedLanguage == 1)
             path = System.IO.Path.Combine(Application.streamingAssetsPath, "english.txt");
+        else if(selectedLanguage == 1)
+            path = System.IO.Path.Combine(Application.streamingAssetsPath, "macedonian.txt");
         else if (selectedLanguage == 2)
             path = System.IO.Path.Combine(Application.streamingAssetsPath, "shqip.txt");
 

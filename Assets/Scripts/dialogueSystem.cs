@@ -55,6 +55,8 @@ public class dialogueSystem : MonoBehaviour
 
     public void startTyping()
     {
+        TextArea.text = "";
+
         if (checkReturnObjective())
             checkIfObjective();
         else
@@ -63,8 +65,8 @@ public class dialogueSystem : MonoBehaviour
             checkIfObjective();
         }
 
+        if (checkIfDialogEnded()) return;
 
-        TextArea.text = "";
         dialogue = levels[currentLevel][chatIndex].text.ToString();
         typingCoroutine = StartCoroutine(Typing());
     }
@@ -194,6 +196,8 @@ public class dialogueSystem : MonoBehaviour
 
                 checkIfObjective();
 
+                if (checkIfDialogEnded()) return;
+
                 TextArea.text = "";
                 dialogue = levels[currentLevel][chatIndex].text;
                 selected = -1;
@@ -216,6 +220,8 @@ public class dialogueSystem : MonoBehaviour
 
             checkIfObjective();
 
+            if(checkIfDialogEnded()) return;
+
             TextArea.text = "";
             dialogue = levels[currentLevel][chatIndex].text;
             typingCoroutine = StartCoroutine(Typing());
@@ -229,6 +235,8 @@ public class dialogueSystem : MonoBehaviour
                 chatIndex++;
 
                 checkIfObjective();
+
+                if (checkIfDialogEnded()) return;
 
                 TextArea.text = "";
                 dialogue = levels[currentLevel][chatIndex].text;
@@ -269,11 +277,35 @@ public class dialogueSystem : MonoBehaviour
 
     IEnumerator Typing()
     {
-        foreach (char letter in dialogue.ToCharArray())
+        // Convert to char array for easy scanning
+        char[] chars = dialogue.ToCharArray();
+
+        for (int i = 0; i < chars.Length; i++)
         {
-            TextArea.text += letter;
+            // --- NEW: Detect start of a rich text tag ---
+            if (chars[i] == '<')
+            {
+                // Find where the tag ends ('>')
+                int endIndex = dialogue.IndexOf('>', i);
+
+                if (endIndex != -1)
+                {
+                    // Append the full tag instantly (no delay)
+                    string tag = dialogue.Substring(i, endIndex - i + 1);
+                    TextArea.text += tag;
+
+                    // Skip ahead to after the tag
+                    i = endIndex;
+                    continue;
+                }
+            }
+
+            // --- Normal typing for non-tag characters ---
+            TextArea.text += chars[i];
             yield return new WaitForSeconds(wordSpeed);
         }
+
+        // When done, enable Continue button
         ContinueButton.SetActive(true);
         typingCoroutine = null;
     }
