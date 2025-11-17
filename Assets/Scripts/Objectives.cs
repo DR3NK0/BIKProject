@@ -17,6 +17,7 @@ public class Objectives : MonoBehaviour
     {
         getFirstObjective();
 
+        /*
         if (PlayerPrefs.HasKey("Level"))
             Level = PlayerPrefs.GetInt("Level");
         else
@@ -35,6 +36,10 @@ public class Objectives : MonoBehaviour
 
         for (int i = 0; i < LevelDoors.Length; i++)
             LevelDoors[i].GetComponent<Button>().interactable = false;
+        */
+
+        for (int i = 0; i < LevelDoors.Length; i++)
+            LevelDoors[i].GetComponent<Button>().interactable = true;
 
         LevelDoors[Level - 1].GetComponent<Button>().interactable = true;
     }
