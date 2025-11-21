@@ -8,7 +8,7 @@ public class Pot : MonoBehaviour, IDropHandler
 
     [SerializeField] TextMeshProUGUI vegetableToAdd;
 
-    string[] toAddStrings = { "Now add Tomato!", "Now add Apple.", "Now Add Cucumber!"};
+    string[] toAddStrings = { "Now add Oil!", "Now add Tommato.", "Now Add Peper!", "Now add Onions!" };
 
     int vegetableIndexToAdd = 1;
 
