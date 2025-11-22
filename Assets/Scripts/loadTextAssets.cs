@@ -2,22 +2,20 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class loadTextAssets : MonoBehaviour
 {
     [SerializeField] SceneController sceneController;
     [SerializeField] Objectives o;
 
-    int selectedLanguage = 0; // 1 - Macedonian, 2 - English, 3 - Shqip
-    [SerializeField] GameObject[] LanguageButtons;
+    int selectedLanguage = 0; // 0 - Macedonian, 1 - English, 2 - Shqip
+    [SerializeField] GameObject[] LanguageGameObjects; // 0 - Macedonian, 1 - English, 2 - Shqip
 
     void Start() => startLoadingLanguage();
 
     public void startLoadingLanguage()
     {
         StartCoroutine(loadLanguage());
-        switchLanguageButtons();
     }
 
     IEnumerator loadLanguage()
@@ -30,6 +28,11 @@ public class loadTextAssets : MonoBehaviour
         {
             selectedLanguage = 0;
             PlayerPrefs.SetInt("Language", 0);
+
+            for (int i = 0; i < LanguageGameObjects.Length; i++)
+                LanguageGameObjects[i].SetActive(false);
+
+            LanguageGameObjects[selectedLanguage].SetActive(true);
         }
 
         string path = "";
@@ -59,22 +62,5 @@ public class loadTextAssets : MonoBehaviour
             PlayerPrefs.DeleteKey("Content");
             PlayerPrefs.SetString("Content", content);
         }
-    }
-
-    public void switchLanguageButtons()
-    {
-        for (int i = 0; i < LanguageButtons.Length; i++)
-            LanguageButtons[i].GetComponent<Button>().interactable = true;
-
-        LanguageButtons[selectedLanguage].GetComponent<Button>().interactable = false;
-    }
-
-    public void switchLanguage(int index)
-    {
-        selectedLanguage = index;
-        PlayerPrefs.SetInt("Language", selectedLanguage);
-        StartCoroutine(loadLanguage());
-        switchLanguageButtons();
-        o.switchLanguageObjective();
     }
 }

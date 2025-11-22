@@ -277,35 +277,28 @@ public class dialogueSystem : MonoBehaviour
 
     IEnumerator Typing()
     {
-        // Convert to char array for easy scanning
         char[] chars = dialogue.ToCharArray();
 
         for (int i = 0; i < chars.Length; i++)
         {
-            // --- NEW: Detect start of a rich text tag ---
             if (chars[i] == '<')
             {
-                // Find where the tag ends ('>')
                 int endIndex = dialogue.IndexOf('>', i);
 
                 if (endIndex != -1)
                 {
-                    // Append the full tag instantly (no delay)
                     string tag = dialogue.Substring(i, endIndex - i + 1);
                     TextArea.text += tag;
 
-                    // Skip ahead to after the tag
                     i = endIndex;
                     continue;
                 }
             }
 
-            // --- Normal typing for non-tag characters ---
             TextArea.text += chars[i];
             yield return new WaitForSeconds(wordSpeed);
         }
 
-        // When done, enable Continue button
         ContinueButton.SetActive(true);
         typingCoroutine = null;
     }

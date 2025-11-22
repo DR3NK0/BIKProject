@@ -17,10 +17,11 @@ public class GameTree : MonoBehaviour
 
     void checkStart()
     {
-        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelTreeObject.activeInHierarchy)
+        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelTreeObject.GetComponent<CanvasGroup>().interactable)
         {
+            LevelTreeObject.GetComponent<CanvasGroup>().interactable = true;
+            LevelTreeObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
             gameStarted = true;
-            LevelTreeObject.SetActive(true);
         }
     }
 
@@ -30,8 +31,7 @@ public class GameTree : MonoBehaviour
         {
             gameController.setGameFinished(true);
             finishKey.SetActive(true);
-
-            LevelTreeObject.SetActive(false);
+            finishKey.GetComponent<Animator>().SetTrigger("Flash");
 
             PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 

@@ -8,7 +8,8 @@ public class GameFive : MonoBehaviour
     [SerializeField] SceneController sceneController;
 
     [SerializeField] GameObject LevelFiveObject;
-    [SerializeField] GameObject finishKey;
+    [SerializeField] GameObject VegetableToAdd;
+    [SerializeField] GameObject finish;
     [SerializeField] GameObject[] vegetables;
 
     bool gameStarted = false;
@@ -17,10 +18,12 @@ public class GameFive : MonoBehaviour
         
     void checkStart()
     {
-        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelFiveObject.activeInHierarchy)
+        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelFiveObject.GetComponent<CanvasGroup>().interactable)
         {
+            LevelFiveObject.GetComponent<CanvasGroup>().interactable = true;
+            LevelFiveObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
+            VegetableToAdd.SetActive(true);
             gameStarted = true;
-            LevelFiveObject.SetActive(true);
         }
     }
 
@@ -29,9 +32,8 @@ public class GameFive : MonoBehaviour
         if (checkIfAllClosed() && gameStarted)
         {
             gameController.setGameFinished(true);
-            finishKey.SetActive(true);
-
-            LevelFiveObject.SetActive(false);
+            finish.SetActive(true);
+            VegetableToAdd.SetActive(false);
 
             PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 

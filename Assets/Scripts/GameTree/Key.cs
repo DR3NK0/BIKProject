@@ -12,6 +12,8 @@ public class Key : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
     RectTransform rectTransform;
     Vector2 originalPosition;
 
+    [SerializeField] Animator Greshka;
+
     void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -36,7 +38,10 @@ public class Key : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandl
         canvasGroup.blocksRaycasts = true;
 
         if (eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<KeyPlaceholder>() == null)
+        {
             goToOriginalPosition();
+            Greshka.SetTrigger("Flash");
+        }
     }
 
     public void changeItemLocation(Vector3 pos) => rectTransform.position = pos;

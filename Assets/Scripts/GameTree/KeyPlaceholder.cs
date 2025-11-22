@@ -8,6 +8,10 @@ public class KeyPlaceholder : MonoBehaviour, IDropHandler
     [Space]
     public int keyIndex;
 
+    [Space]
+
+    [SerializeField] Animator Greshka;
+
     public void OnDrop(PointerEventData eventData)
     {
         GameObject droppedObject = eventData.pointerDrag;
@@ -22,6 +26,7 @@ public class KeyPlaceholder : MonoBehaviour, IDropHandler
         {
             droppedObject.transform.SetParent(transform, false);
             droppedObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            droppedObject.transform.eulerAngles = Vector3.zero;
 
             item.changeItemLocation(this.gameObject.GetComponent<RectTransform>().position);
 
@@ -30,6 +35,9 @@ public class KeyPlaceholder : MonoBehaviour, IDropHandler
             gameTree.checkIfBeaten();
         }
         else
+        {
             item.goToOriginalPosition();
+            Greshka.SetTrigger("Flash");
+        }
     }
 }

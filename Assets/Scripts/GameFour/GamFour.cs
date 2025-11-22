@@ -17,10 +17,11 @@ public class GamFour : MonoBehaviour
 
     void checkStart()
     {
-        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelFourObject.activeInHierarchy)
+        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelFourObject.GetComponent<CanvasGroup>().interactable)
         {
+            LevelFourObject.GetComponent<CanvasGroup>().interactable = true;
+            LevelFourObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
             gameStarted = true;
-            LevelFourObject.SetActive(true);
         }
     }
 
@@ -30,8 +31,6 @@ public class GamFour : MonoBehaviour
         {
             gameController.setGameFinished(true);
             finishKey.SetActive(true);
-
-            LevelFourObject.SetActive(false);
 
             PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 
