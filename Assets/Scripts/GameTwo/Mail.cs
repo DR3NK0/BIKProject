@@ -3,32 +3,56 @@ using UnityEngine.EventSystems;
 
 public class Mail : MonoBehaviour, IPointerClickHandler
 {
+    [SerializeField] GameTwo gameTwo;
+
     public int mailIndex;
-    public int mailBelongsTo;
+    public int correctMailSpot;
+
+    bool mailBoxEmpty = false;
+    bool correctSportComplete = false;
 
     [SerializeField] Hand hand;
-    [SerializeField] GameObject mailUI;
 
+    [SerializeField] GameObject Completed;
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (correctSportComplete) return;
         if (!hand.handFull)
-            hand.getMailInHand(mailIndex, this.gameObject);
+        {
+            this.gameObject.transform.GetChild(mailIndex).gameObject.SetActive(false);
+            mailBoxEmpty = true;
+            hand.getMailInHand(mailIndex);
+        }
         else
         {
-            if (hand.mailGameObject == null) return;
-
-            if(hand.handMailIndex == mailIndex)
+            if (mailBoxEmpty)
             {
-                if(mailUI != null)
-                    mailUI.SetActive(true);
+                mailIndex = hand.handMailIndex;
+                hand.removeMailInHand();
             }
             else
-                hand.switchMailInHand(mailIndex, this.gameObject);
-        }
-    }
+            {
+                for(int i = 0; i < 4; i++)
+                    this.gameObject.transform.GetChild(i).gameObject.SetActive(false);
 
-    public void closeMailUI()
-    {
-        mailUI.SetActive(false);
+                int tmp = mailIndex;
+                mailIndex = hand.handMailIndex;
+                hand.handMailIndex = tmp;
+            }
+
+            mailBoxEmpty = false;
+
+            this.gameObject.transform.GetChild(mailIndex).gameObject.SetActive(true);
+
+            if (mailIndex == correctMailSpot)
+            {
+                correctSportComplete = true;
+                Completed.SetActive(true);
+            }
+
+            hand.closeMail();
+
+            gameTwo.checkIfBeaten();
+        }
     }
 }

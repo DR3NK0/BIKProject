@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameOne : MonoBehaviour
 {
@@ -9,7 +10,9 @@ public class GameOne : MonoBehaviour
 
     [SerializeField] GameObject LevelOneObject;
     [SerializeField] GameObject[] DraggableObjects;
-    [SerializeField] GameObject finishKey;
+
+    [SerializeField] GameObject Background;
+    [SerializeField] Sprite finishBackground;
 
     bool gameStarted = false;
 
@@ -17,10 +20,11 @@ public class GameOne : MonoBehaviour
 
     void checkStart()
     {
-        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelOneObject.activeInHierarchy)
+        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelOneObject.GetComponent<CanvasGroup>().interactable)
         {
+            LevelOneObject.GetComponent<CanvasGroup>().interactable = true;
+            LevelOneObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
             gameStarted = true;
-            LevelOneObject.SetActive(true);
         }
     }
 
@@ -29,7 +33,7 @@ public class GameOne : MonoBehaviour
         if(checkDraggableObjects() && gameStarted)
         {
             gameController.setGameFinished(true);
-            finishKey.SetActive(true);
+            Background.GetComponent<Image>().sprite = finishBackground;
 
             PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 

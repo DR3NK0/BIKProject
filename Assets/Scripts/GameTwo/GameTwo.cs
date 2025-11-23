@@ -17,10 +17,11 @@ public class GameTwo : MonoBehaviour
 
     void checkStart()
     {
-        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelTwoObject.activeInHierarchy)
+        if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelTwoObject.GetComponent<CanvasGroup>().interactable)
         {
+            LevelTwoObject.GetComponent<CanvasGroup>().interactable = true;
+            LevelTwoObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
             gameStarted = true;
-            LevelTwoObject.SetActive(true);
         }
     }
 
@@ -30,9 +31,6 @@ public class GameTwo : MonoBehaviour
         {
             gameController.setGameFinished(true);
             finishKey.SetActive(true);
-
-            for (int i = 0; i < MailGameObjects.Length; i++)
-                MailGameObjects[i].GetComponent<Mail>().closeMailUI();
 
             PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 
@@ -59,7 +57,7 @@ public class GameTwo : MonoBehaviour
 
         for(int i = 0;i< MailGameObjects.Length; i++)
         {
-            if (MailGameObjects[i].GetComponent<Mail>().mailBelongsTo != MailGameObjects[i].GetComponent<Mail>().mailIndex)
+            if (MailGameObjects[i].GetComponent<Mail>().correctMailSpot != MailGameObjects[i].GetComponent<Mail>().mailIndex)
                 allCorrect = false;
         }
 

@@ -1,47 +1,42 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.XR;
 
-public class Hand : MonoBehaviour
+public class Hand : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] GameTwo gameTwo;
-
     public bool handFull { get; private set; } = false;
     public int handMailIndex = -1;
-    public GameObject mailGameObject { get; private set; } = null;
+    public GameObject[] MailUI;
 
-    [SerializeField] GameObject Placeholder; 
-
-    public void getMailInHand(int index,GameObject mail)
+    public void getMailInHand(int index)
     {
         handFull = true;
         handMailIndex = index;
-        Placeholder.GetComponent<RectTransform>().position = mail.GetComponent<RectTransform>().position;
-        mail.GetComponent<RectTransform>().position = this.GetComponent<RectTransform>().position;
-        mailGameObject = mail;
+
+        this.gameObject.GetComponent<CanvasGroup>().alpha = 1;
+        this.gameObject.GetComponent<CanvasGroup>().interactable = true;
+        this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
+    }
+    public void removeMailInHand()
+    {
+        handFull = false;
+        handMailIndex = -1;
+
+        this.gameObject.GetComponent<CanvasGroup>().alpha = 0;
+        this.gameObject.GetComponent<CanvasGroup>().interactable = false;
+        this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 
-    public void switchMailInHand(int index, GameObject mail)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if(index == 0)
-        {
-            handFull = false;
-            mailGameObject.GetComponent<RectTransform>().position = Placeholder.GetComponent<RectTransform>().position;
-            Placeholder.GetComponent<RectTransform>().position = this.GetComponent<RectTransform>().position;
-            mailGameObject = null;
-            handMailIndex = -1;
-
-            gameTwo.checkIfBeaten();
-        }
+        if (!handFull) return;
         else
-        {
-            mailGameObject.GetComponent<RectTransform>().position = mail.GetComponent<RectTransform>().position;
-            mail.GetComponent<RectTransform>().position = this.GetComponent<RectTransform>().position;
+            MailUI[handMailIndex].SetActive(true);
+    }
 
-            int mailIndex = mail.GetComponent<Mail>().mailBelongsTo;
-
-            mail.GetComponent<Mail>().mailBelongsTo = mailGameObject.GetComponent<Mail>().mailBelongsTo;
-            mailGameObject.GetComponent<Mail>().mailBelongsTo = mailIndex;
-            mailGameObject = mail;
-            handMailIndex = index;
-        }
+    public void closeMail()
+    {
+        for(int i = 0; i < MailUI.Length; i++)
+            MailUI[i].SetActive(false);
     }
 }
