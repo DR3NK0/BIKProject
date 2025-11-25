@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class GamFour : MonoBehaviour
@@ -8,10 +7,12 @@ public class GamFour : MonoBehaviour
     [SerializeField] SceneController sceneController;
 
     [SerializeField] GameObject LevelFourObject;
-    [SerializeField] GameObject finishKey;
+    [SerializeField] GameObject Tutorial;
+    [SerializeField] GameObject finishUI;
     [SerializeField] GameObject[] windows;
 
     bool gameStarted = false;
+    bool tutorialStarted = false;
 
     void Update() => checkStart();
 
@@ -19,9 +20,11 @@ public class GamFour : MonoBehaviour
     {
         if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelFourObject.GetComponent<CanvasGroup>().interactable)
         {
-            LevelFourObject.GetComponent<CanvasGroup>().interactable = true;
-            LevelFourObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
-            gameStarted = true;
+            if (!tutorialStarted)
+            {
+                if (!Tutorial.activeInHierarchy)
+                    Tutorial.SetActive(true);
+            }
         }
     }
 
@@ -30,10 +33,11 @@ public class GamFour : MonoBehaviour
         if (checkIfAllClosed() && gameStarted)
         {
             gameController.setGameFinished(true);
-            finishKey.SetActive(true);
+            finishUI.SetActive(true);
 
             PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 
+            /*
             if (!dialogueSM.checkIfDialogEnded())
             {
                 gameController.controldialoguePanel(true);
@@ -41,14 +45,19 @@ public class GamFour : MonoBehaviour
             }
             else
                 StartCoroutine(goToMenu());
+            */
         }
     }
 
-    IEnumerator goToMenu()
+    public void increaseLevel() => PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
+    public void finishTutorial()
     {
-        yield return new WaitForSeconds(3);
+        tutorialStarted = true;
+        Tutorial.SetActive(false);
 
-        sceneController.loadScene("Menu");
+        LevelFourObject.GetComponent<CanvasGroup>().interactable = true;
+        LevelFourObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        gameStarted = true;
     }
 
     bool checkIfAllClosed()

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class GameFive : MonoBehaviour
@@ -9,10 +8,12 @@ public class GameFive : MonoBehaviour
 
     [SerializeField] GameObject LevelFiveObject;
     [SerializeField] GameObject VegetableToAdd;
+    [SerializeField] GameObject Tutorial;
     [SerializeField] GameObject finish;
     [SerializeField] GameObject[] vegetables;
 
     bool gameStarted = false;
+    bool tutorialStarted = false;
 
     void Update() => checkStart();
         
@@ -20,10 +21,11 @@ public class GameFive : MonoBehaviour
     {
         if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelFiveObject.GetComponent<CanvasGroup>().interactable)
         {
-            LevelFiveObject.GetComponent<CanvasGroup>().interactable = true;
-            LevelFiveObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
-            VegetableToAdd.SetActive(true);
-            gameStarted = true;
+            if (!tutorialStarted)
+            {
+                if (!Tutorial.activeInHierarchy)
+                    Tutorial.SetActive(true);
+            }
         }
     }
 
@@ -37,6 +39,7 @@ public class GameFive : MonoBehaviour
 
             PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 
+            /*
             if (!dialogueSM.checkIfDialogEnded())
             {
                 gameController.controldialoguePanel(true);
@@ -44,14 +47,19 @@ public class GameFive : MonoBehaviour
             }
             else
                 StartCoroutine(goToMenu());
+            */
         }
     }
 
-    IEnumerator goToMenu()
+    public void finishTutorial()
     {
-        yield return new WaitForSeconds(3);
+        tutorialStarted = true;
+        Tutorial.SetActive(false);
 
-        sceneController.loadScene("Menu");
+        LevelFiveObject.GetComponent<CanvasGroup>().interactable = true;
+        LevelFiveObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        VegetableToAdd.SetActive(true);
+        gameStarted = true;
     }
 
     bool checkIfAllClosed()

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class GameTree : MonoBehaviour
@@ -8,10 +7,13 @@ public class GameTree : MonoBehaviour
     [SerializeField] SceneController sceneController;
 
     [SerializeField] GameObject LevelTreeObject;
+    [SerializeField] GameObject Tutorial;
     [SerializeField] GameObject finishKey;
+    [SerializeField] GameObject finishUI;
     [SerializeField] GameObject[] keys;
 
     bool gameStarted = false;
+    bool tutorialStarted = false;
 
     void Update() => checkStart();
 
@@ -19,9 +21,11 @@ public class GameTree : MonoBehaviour
     {
         if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelTreeObject.GetComponent<CanvasGroup>().interactable)
         {
-            LevelTreeObject.GetComponent<CanvasGroup>().interactable = true;
-            LevelTreeObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
-            gameStarted = true;
+            if (!tutorialStarted)
+            {
+                if (!Tutorial.activeInHierarchy)
+                    Tutorial.SetActive(true);
+            }
         }
     }
 
@@ -32,9 +36,11 @@ public class GameTree : MonoBehaviour
             gameController.setGameFinished(true);
             finishKey.SetActive(true);
             finishKey.GetComponent<Animator>().SetTrigger("Flash");
+            finishUI.SetActive(true);
 
             PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 
+            /*
             if (!dialogueSM.checkIfDialogEnded())
             {
                 gameController.controldialoguePanel(true);
@@ -42,14 +48,20 @@ public class GameTree : MonoBehaviour
             }
             else
                 StartCoroutine(goToMenu());
+            */
         }
     }
 
-    IEnumerator goToMenu()
-    {
-        yield return new WaitForSeconds(3);
+    public void increaseLevel() => PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 
-        sceneController.loadScene("Menu");
+    public void finishTutorial()
+    {
+        tutorialStarted = true;
+        Tutorial.SetActive(false);
+
+        LevelTreeObject.GetComponent<CanvasGroup>().interactable = true;
+        LevelTreeObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        gameStarted = true;
     }
 
     bool checkIfAllStacked()

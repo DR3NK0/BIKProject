@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DialogueEntry
 {
@@ -49,7 +50,9 @@ public class dialogueSystem : MonoBehaviour
     {
         objectiveText.text = PlayerPrefs.GetString("Objective");
         ParseText(PlayerPrefs.GetString("Content"));
-        currentLevel = PlayerPrefs.GetInt("Level") - 1;
+
+        string scene = SceneManager.GetActiveScene().name;
+        currentLevel = (scene[scene.Length - 1] - '0') - 1;
         startTyping();
     }
 
