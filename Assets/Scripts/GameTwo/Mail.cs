@@ -14,9 +14,14 @@ public class Mail : MonoBehaviour, IPointerClickHandler
     [SerializeField] Hand hand;
 
     [SerializeField] GameObject Completed;
+
+    public bool Tutorial = false;
     public void OnPointerClick(PointerEventData eventData)
     {
         if (correctSportComplete) return;
+
+        if (!Tutorial) { Tutorial = !Tutorial; gameTwo.changeTutorial(); }
+
         if (!hand.handFull)
         {
             this.gameObject.transform.GetChild(mailIndex).gameObject.SetActive(false);

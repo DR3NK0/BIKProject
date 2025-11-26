@@ -35,8 +35,6 @@ public class GamFour : MonoBehaviour
             gameController.setGameFinished(true);
             finishUI.SetActive(true);
 
-            PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
-
             /*
             if (!dialogueSM.checkIfDialogEnded())
             {

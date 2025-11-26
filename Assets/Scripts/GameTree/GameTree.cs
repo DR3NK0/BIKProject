@@ -38,8 +38,6 @@ public class GameTree : MonoBehaviour
             finishKey.GetComponent<Animator>().SetTrigger("Flash");
             finishUI.SetActive(true);
 
-            PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
-
             /*
             if (!dialogueSM.checkIfDialogEnded())
             {

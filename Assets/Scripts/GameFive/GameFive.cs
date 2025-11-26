@@ -37,8 +37,6 @@ public class GameFive : MonoBehaviour
             finish.SetActive(true);
             VegetableToAdd.SetActive(false);
 
-            PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
-
             /*
             if (!dialogueSM.checkIfDialogEnded())
             {

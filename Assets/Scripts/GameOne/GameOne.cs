@@ -12,9 +12,16 @@ public class GameOne : MonoBehaviour
     [SerializeField] GameObject[] DraggableObjects;
 
     [SerializeField] GameObject Background;
+    [SerializeField] Sprite passwordFoundBackground;
     [SerializeField] Sprite finishBackground;
 
+    [SerializeField] GameObject Tutorial;
+    [SerializeField] GameObject FinishUI;
+
+    public bool passwordFound = false;
+
     bool gameStarted = false;
+    bool tutorialStarted = false;
 
     void Update() => checkStart();
 
@@ -22,21 +29,23 @@ public class GameOne : MonoBehaviour
     {
         if (!gameStarted && gameController.gameStarted && !gameController.gameFinished && !LevelOneObject.GetComponent<CanvasGroup>().interactable)
         {
-            LevelOneObject.GetComponent<CanvasGroup>().interactable = true;
-            LevelOneObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
-            gameStarted = true;
+            if (!tutorialStarted)
+            {
+                if (!Tutorial.activeInHierarchy)
+                    Tutorial.SetActive(true);
+            }
         }
     }
 
     public void checkIfBeaten()
     {
-        if(checkDraggableObjects() && gameStarted)
+        if(checkDraggableObjects() && gameStarted && passwordFound)
         {
             gameController.setGameFinished(true);
-            Background.GetComponent<Image>().sprite = finishBackground;
+            changeToFinishBackground();
+            FinishUI.SetActive(true);
 
-            PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
-
+            /*
             if (!dialogueSM.checkIfDialogEnded())
             {
                 gameController.controldialoguePanel(true);
@@ -44,15 +53,24 @@ public class GameOne : MonoBehaviour
             }
             else
                 StartCoroutine(goToMenu());
+            */
         }
     }
 
-    IEnumerator goToMenu()
+    public void finishTutorial()
     {
-        yield return new WaitForSeconds(3);
+        tutorialStarted = true;
+        Tutorial.SetActive(false);
 
-        sceneController.loadScene("Menu");
+        LevelOneObject.GetComponent<CanvasGroup>().interactable = true;
+        LevelOneObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        gameStarted = true;
     }
+
+    public void increaseLevel() => PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
+
+    public void changeToPasswordFoundBackground() => Background.GetComponent<Image>().sprite = passwordFoundBackground;
+    public void changeToFinishBackground() => Background.GetComponent<Image>().sprite = finishBackground;
 
     bool checkDraggableObjects()
     {
