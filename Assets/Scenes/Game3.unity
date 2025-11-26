@@ -2155,7 +2155,7 @@ MonoBehaviour:
   - {fileID: 741082745}
   - {fileID: 1671458077}
   ContinueButton: {fileID: 1783414591}
-  wordSpeed: 0.05
+  wordSpeed: 0
   currentLevel: 0
 --- !u!1 &1276107035
 GameObject:
