@@ -41,20 +41,32 @@ public class Objectives : MonoBehaviour
 
     public void getFirstObjective()
     {
-        if (!PlayerPrefs.HasKey("Objective"))
+        string[] lines = PlayerPrefs.GetString("Content").Split('\n');
+        string line = lines.FirstOrDefault(l => l.StartsWith("[O]"));
+
+        if (line == null)
         {
-            string firstO = PlayerPrefs.GetString("Content").Split('\n').First(l => l.StartsWith("[O]")).Substring(3).Trim();
-            PlayerPrefs.SetString("Objective", firstO);
+            Debug.LogError("Missing [O] line in language file.");
+            return;
         }
 
-        ObjectiveText.text = PlayerPrefs.GetString("Objective");
+        string firstO = line.Substring(3).Trim();
+        PlayerPrefs.SetString("Objective", firstO);
     }
 
     public void switchLanguageObjective()
     {
-        string firstO = PlayerPrefs.GetString("Content").Split('\n').First(l => l.StartsWith("[O]")).Substring(3).Trim();
+        string[] lines = PlayerPrefs.GetString("Content").Split('\n');
+        string line = lines.FirstOrDefault(l => l.StartsWith("[O]"));
+
+        if (line == null)
+        {
+            Debug.LogError("Missing [O] line in language file.");
+            return;
+        }
+
+        string firstO = line.Substring(3).Trim();
         PlayerPrefs.SetString("Objective", firstO);
-        ObjectiveText.text = PlayerPrefs.GetString("Objective");
     }
     public void setLevel(int l)
     {

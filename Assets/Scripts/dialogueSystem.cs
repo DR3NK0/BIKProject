@@ -40,7 +40,9 @@ public class dialogueSystem : MonoBehaviour
     string dialogue;
     int selected = -1;
 
-    public int currentLevel = 0;
+    [Space]
+
+    [SerializeField] int currentLevel = 0;
 
     Coroutine typingCoroutine = null;
 
@@ -49,10 +51,7 @@ public class dialogueSystem : MonoBehaviour
     void Start()
     {
         objectiveText.text = PlayerPrefs.GetString("Objective");
-        ParseText(PlayerPrefs.GetString("Content"));
-
-        string scene = SceneManager.GetActiveScene().name;
-        currentLevel = (scene[scene.Length - 1] - '0') - 1;
+        ParseText(PlayerPrefs.GetString("Content")); 
         startTyping();
     }
 

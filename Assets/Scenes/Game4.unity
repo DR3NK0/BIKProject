@@ -2830,7 +2830,7 @@ MonoBehaviour:
   - {fileID: 1492164417}
   ContinueButton: {fileID: 1168947722}
   wordSpeed: 0
-  currentLevel: 0
+  currentLevel: 3
 --- !u!1 &1387189505
 GameObject:
   m_ObjectHideFlags: 0
