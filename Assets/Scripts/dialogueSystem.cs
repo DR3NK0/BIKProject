@@ -178,6 +178,8 @@ public class dialogueSystem : MonoBehaviour
         typingCoroutine = StartCoroutine(Typing());
     }
 
+    public void controlObjectiveObject(bool state) => ObjectiveObject.SetActive(state);
+
     public void checkText()
     {
         if(levels[currentLevel][chatIndex].type == "Q")

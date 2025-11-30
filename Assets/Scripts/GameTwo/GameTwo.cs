@@ -32,6 +32,7 @@ public class GameTwo : MonoBehaviour
 
                     if (!Tutorials[tutorialIndex].activeInHierarchy)
                     {
+                        dialogueSM.controlObjectiveObject(false);
                         Tutorials[tutorialIndex].SetActive(true);
                         TutorialActivations[tutorialIndex].GetComponent<CanvasGroup>().ignoreParentGroups = true;
                     }
