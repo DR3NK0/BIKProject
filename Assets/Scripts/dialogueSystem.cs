@@ -72,14 +72,13 @@ public class dialogueSystem : MonoBehaviour
             checkIfObjective();
         else
         {
+            dialogue = levels[currentLevel][chatIndex].text.ToString();
+            typingCoroutine = StartCoroutine(Typing());
+
             chatIndex++;
             checkIfObjective();
         }
 
-        if (checkIfDialogEnded()) return;
-
-        dialogue = levels[currentLevel][chatIndex].text.ToString();
-        typingCoroutine = StartCoroutine(Typing());
     }
 
     void ParseText(string text)
@@ -198,8 +197,6 @@ public class dialogueSystem : MonoBehaviour
                 {
                     if (!gameController.gameStarted && !gameController.gameFinished)
                         gameController.setGameStarted(true);
-                    else
-                        sceneController.loadScene("Menu");
 
                     return;
                 }
@@ -222,8 +219,6 @@ public class dialogueSystem : MonoBehaviour
             {
                 if (!gameController.gameStarted && !gameController.gameFinished)
                     gameController.setGameStarted(true);
-                else
-                    sceneController.loadScene("Menu");
 
                 return;
             }
@@ -281,17 +276,13 @@ public class dialogueSystem : MonoBehaviour
             {
                 if (!gameController.gameStarted && !gameController.gameFinished)
                     gameController.setGameStarted(true);
-                else
-                    sceneController.loadScene("Menu");
 
                 return;
             }
 
             chatIndex++;
 
-            TextArea.text = "";
-            dialogue = levels[currentLevel][chatIndex].text;
-            typingCoroutine = StartCoroutine(Typing());
+            checkText();
         }
     }
     public bool checkReturnObjective() => levels[currentLevel][chatIndex].type == "O";

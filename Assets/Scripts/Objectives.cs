@@ -15,7 +15,7 @@ public class Objectives : MonoBehaviour
 
     public void getObjectives()
     {
-        setupObjective();
+        //setupObjective();
 
         if (PlayerPrefs.HasKey("Level"))
             Level = PlayerPrefs.GetInt("Level");
