@@ -2738,7 +2738,7 @@ MonoBehaviour:
   - {fileID: 1845501684}
   Background: {fileID: 1765299553}
   passwordFoundBackground: {fileID: 21300000, guid: 63786b0dbaf5ee542943b461fe854e92, type: 3}
-  finishBackground: {fileID: 21300000, guid: 42afc7d3ef0418b4ca13bff7080452f6, type: 3}
+  finishBackground: {fileID: 21300000, guid: f9a83cdda4f6d8f4badab9057a329a9a, type: 3}
   Tutorial: {fileID: 121786827}
   FinishUI: {fileID: 279883030}
   passwordFound: 0
@@ -3407,7 +3407,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 87cf452e1f9e1d3488f1002cba660dd4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bbf396f27c6566049b8eeff5cfb658ef, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -4298,7 +4298,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 208a6915605e34a4c8df774caf1c7123, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0955ca031aadec64e8043210b2626ec1, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -4814,7 +4814,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1c653f12698b5344c8efcbd06fc48f62, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7f28b90763061714186389f40eb2458b, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
