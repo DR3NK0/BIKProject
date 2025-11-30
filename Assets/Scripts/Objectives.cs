@@ -1,12 +1,12 @@
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Objectives : MonoBehaviour
 {
     int Level = 1;
 
+    [SerializeField] GameObject ObjectiveObject;
     [SerializeField] TextMeshProUGUI ObjectiveText;
 
     [SerializeField] GameObject[] LevelDoors;
@@ -15,7 +15,7 @@ public class Objectives : MonoBehaviour
 
     public void getObjectives()
     {
-        getFirstObjective();
+        setupObjective();
 
         if (PlayerPrefs.HasKey("Level"))
             Level = PlayerPrefs.GetInt("Level");
@@ -39,38 +39,15 @@ public class Objectives : MonoBehaviour
         LevelDoors[Level - 1].SetActive(true);
     }
 
-    public void getFirstObjective()
+    public void setupObjective()
     {
-        string[] lines = PlayerPrefs.GetString("Content").Split('\n');
-        string line = lines.FirstOrDefault(l => l.StartsWith("[O]"));
-
-        if (line == null)
+        if(!PlayerPrefs.HasKey("Objective"))
+            ObjectiveObject.SetActive(false);
+        else
         {
-            Debug.LogError("Missing [O] line in language file.");
-            return;
+            ObjectiveObject.SetActive(true);
+            ObjectiveText.text = PlayerPrefs.GetString("Objective");
         }
-
-        string firstO = line.Substring(3).Trim();
-        PlayerPrefs.SetString("Objective", firstO);
     }
 
-    public void switchLanguageObjective()
-    {
-        string[] lines = PlayerPrefs.GetString("Content").Split('\n');
-        string line = lines.FirstOrDefault(l => l.StartsWith("[O]"));
-
-        if (line == null)
-        {
-            Debug.LogError("Missing [O] line in language file.");
-            return;
-        }
-
-        string firstO = line.Substring(3).Trim();
-        PlayerPrefs.SetString("Objective", firstO);
-    }
-    public void setLevel(int l)
-    {
-        Level = l;
-        PlayerPrefs.SetInt("Level", Level);
-    }
 }

@@ -25,12 +25,14 @@ public class dialogueSystem : MonoBehaviour
 
     [Space]
 
+    [SerializeField] GameObject ObjectiveObject;
     [SerializeField] TextMeshProUGUI objectiveText;
 
     [SerializeField] TextMeshProUGUI TextArea;
 
     [SerializeField] GameObject OptionsPanel;
     [SerializeField] GameObject[] Options;
+    [SerializeField] TextMeshProUGUI QuestionField;
 
     [SerializeField] GameObject ContinueButton;
 
@@ -50,7 +52,14 @@ public class dialogueSystem : MonoBehaviour
 
     void Start()
     {
-        objectiveText.text = PlayerPrefs.GetString("Objective");
+        if (!PlayerPrefs.HasKey("Objective"))
+            ObjectiveObject.SetActive(false);
+        else
+        {
+            ObjectiveObject.SetActive(true);
+            objectiveText.text = PlayerPrefs.GetString("Objective");
+        }
+
         ParseText(PlayerPrefs.GetString("Content")); 
         startTyping();
     }
@@ -178,6 +187,7 @@ public class dialogueSystem : MonoBehaviour
             {
                 OptionsPanel.SetActive(true);
                 TextArea.gameObject.SetActive(false);
+                QuestionField.text = levels[currentLevel][chatIndex].text;
                 Options[0].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = levels[currentLevel][chatIndex].answers[0].option;
                 Options[1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = levels[currentLevel][chatIndex].answers[1].option;
                 Options[2].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = levels[currentLevel][chatIndex].answers[2].option;
@@ -250,7 +260,9 @@ public class dialogueSystem : MonoBehaviour
     public bool checkIfDialogEnded()
     {
         if (chatIndex == levels[currentLevel].Count - 1)
+        {
             return true;
+        }
         else
             return false;
     }
@@ -261,6 +273,9 @@ public class dialogueSystem : MonoBehaviour
         {
             objectiveText.text = levels[currentLevel][chatIndex].text;
             PlayerPrefs.SetString("Objective", objectiveText.text);
+
+            if(!ObjectiveObject.activeInHierarchy)
+                ObjectiveObject.SetActive(true);
 
             if (checkIfDialogEnded())
             {
@@ -273,6 +288,10 @@ public class dialogueSystem : MonoBehaviour
             }
 
             chatIndex++;
+
+            TextArea.text = "";
+            dialogue = levels[currentLevel][chatIndex].text;
+            typingCoroutine = StartCoroutine(Typing());
         }
     }
     public bool checkReturnObjective() => levels[currentLevel][chatIndex].type == "O";
