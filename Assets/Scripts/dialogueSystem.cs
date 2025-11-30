@@ -105,8 +105,8 @@ public class dialogueSystem : MonoBehaviour
                 currentLevel.Add(new DialogueEntry
                 {
                     type = "O",
-                    text = line.Substring(3).Trim()
-                });
+                    text = line.Substring(line.IndexOf(']') + 1).Trim()
+            });
                 currentQuestion = null;
             }
             else if (line.StartsWith("[D]"))
@@ -114,7 +114,7 @@ public class dialogueSystem : MonoBehaviour
                 currentLevel.Add(new DialogueEntry
                 {
                     type = "D",
-                    text = line.Substring(3).Trim()
+                    text = line.Substring(line.IndexOf(']') + 1).Trim()
                 });
                 currentQuestion = null;
             }
@@ -123,7 +123,7 @@ public class dialogueSystem : MonoBehaviour
                 currentLevel.Add(new DialogueEntry
                 {
                     type = "P",
-                    text = line.Substring(3).Trim()
+                    text = line.Substring(line.IndexOf(']') + 1).Trim()
                 });
                 currentQuestion = null;
             }
@@ -132,7 +132,7 @@ public class dialogueSystem : MonoBehaviour
                 currentQuestion = new DialogueEntry
                 {
                     type = "Q",
-                    text = line.Substring(3).Trim(),
+                    text = line.Substring(line.IndexOf(']') + 1).Trim(),
                     answers = new List<DialogueAnswer>()
                 };
                 currentLevel.Add(currentQuestion);
