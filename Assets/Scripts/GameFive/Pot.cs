@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using static UnityEngine.RuleTile.TilingRuleOutput;
@@ -9,7 +9,7 @@ public class Pot : MonoBehaviour, IDropHandler
 
     [SerializeField] TextMeshProUGUI vegetableToAdd;
 
-    string[] toAddStrings = { "Now add Oil!", "Now add Tommato.", "Now Add Peper!", "Now add Onions!" };
+    string[] toAddStrings = { "Додади Масло.", "Сега додади домати.", "Додади ги пиперките", "И на крај, кромидот." };
 
     int vegetableIndexToAdd = 1;
 
