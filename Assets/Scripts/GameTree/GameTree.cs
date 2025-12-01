@@ -38,18 +38,21 @@ public class GameTree : MonoBehaviour
             finishKey.GetComponent<Animator>().SetTrigger("Flash");
             finishUI.SetActive(true);
 
-            /*
-            if (!dialogueSM.checkIfDialogEnded())
-            {
-                gameController.controldialoguePanel(true);
-                dialogueSM.startTyping();
-            }
-            else
-                StartCoroutine(goToMenu());
-            */
         }
     }
 
+    /*
+    public void continueDialogue()
+    {
+        if (!dialogueSM.checkIfDialogEnded())
+        {
+            gameController.controldialoguePanel(true);
+            dialogueSM.startTyping();
+        }
+        else
+            sceneController.loadScene("Menu");
+    }
+    */
     public void increaseLevel() => PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level") + 1);
 
     public void finishTutorial()

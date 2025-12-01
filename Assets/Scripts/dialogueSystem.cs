@@ -18,6 +18,7 @@ public class DialogueAnswer
     public string option;
     public string response;
 }
+
 public class dialogueSystem : MonoBehaviour
 {
     [SerializeField] GameController gameController;
@@ -37,6 +38,8 @@ public class dialogueSystem : MonoBehaviour
     [SerializeField] GameObject ContinueButton;
 
     [SerializeField] float wordSpeed;
+
+    bool isTyping = false;
 
     int chatIndex = 0;
     string dialogue;
@@ -60,26 +63,56 @@ public class dialogueSystem : MonoBehaviour
             objectiveText.text = PlayerPrefs.GetString("Objective");
         }
 
-        ParseText(PlayerPrefs.GetString("Content")); 
-        startTyping();
+        ParseText(PlayerPrefs.GetString("Content"));
+
+        StartTypingSafeFromLevel();
     }
 
-    public void startTyping()
+    void StartTypingSafeFromLevel()
     {
-        TextArea.text = "";
-
         if (checkReturnObjective())
-            checkIfObjective();
-        else
         {
-            dialogue = levels[currentLevel][chatIndex].text.ToString();
-            typingCoroutine = StartCoroutine(Typing());
-
-            chatIndex++;
             checkIfObjective();
+            return;
         }
 
+        if (currentLevel < 0 || currentLevel >= levels.Count || chatIndex < 0 || chatIndex >= levels[currentLevel].Count)
+            return;
+
+        dialogue = levels[currentLevel][chatIndex].text;
+        StartTypingSafe();
+        chatIndex++;
+        checkIfObjective();
     }
+
+    void StartTypingSafe()
+    {
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+            isTyping = false;
+        }
+
+        TextArea.text = "";
+        typingCoroutine = StartCoroutine(Typing());
+    }
+
+    void StartTypingSafeWithString(string newDialogue)
+    {
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+            isTyping = false;
+        }
+
+        dialogue = newDialogue;
+        TextArea.text = "";
+        typingCoroutine = StartCoroutine(Typing());
+    }
+
+    public void startTyping() => StartTypingSafeFromLevel();
 
     void ParseText(string text)
     {
@@ -106,7 +139,7 @@ public class dialogueSystem : MonoBehaviour
                 {
                     type = "O",
                     text = line.Substring(line.IndexOf(']') + 1).Trim()
-            });
+                });
                 currentQuestion = null;
             }
             else if (line.StartsWith("[D]"))
@@ -157,7 +190,6 @@ public class dialogueSystem : MonoBehaviour
 
         if (currentLevel.Count > 0)
             levels.Add(currentLevel);
-
     }
 
     public void continueClicked()
@@ -172,19 +204,23 @@ public class dialogueSystem : MonoBehaviour
         OptionsPanel.SetActive(false);
         TextArea.gameObject.SetActive(true);
         TextArea.text = "";
+
         dialogue = levels[currentLevel][chatIndex].answers[selected].response;
         this.selected = selected;
 
-        typingCoroutine = StartCoroutine(Typing());
+        StartTypingSafeWithString(dialogue);
     }
 
     public void controlObjectiveObject(bool state) => ObjectiveObject.SetActive(state);
 
     public void checkText()
     {
-        if(levels[currentLevel][chatIndex].type == "Q")
+        if (currentLevel < 0 || currentLevel >= levels.Count || chatIndex < 0 || chatIndex >= levels[currentLevel].Count)
+            return;
+
+        if (levels[currentLevel][chatIndex].type == "Q")
         {
-            if(selected == -1 || levels[currentLevel][chatIndex].answers[selected].type == "F")
+            if (selected == -1 || levels[currentLevel][chatIndex].answers[selected].type == "F")
             {
                 OptionsPanel.SetActive(true);
                 TextArea.gameObject.SetActive(false);
@@ -212,10 +248,10 @@ public class dialogueSystem : MonoBehaviour
                 TextArea.text = "";
                 dialogue = levels[currentLevel][chatIndex].text;
                 selected = -1;
-                typingCoroutine = StartCoroutine(Typing());
+                StartTypingSafe();
             }
         }
-        else if(levels[currentLevel][chatIndex].type == "D")
+        else if (levels[currentLevel][chatIndex].type == "D")
         {
             if (checkIfDialogEnded())
             {
@@ -229,11 +265,11 @@ public class dialogueSystem : MonoBehaviour
 
             checkIfObjective();
 
-            if(checkIfDialogEnded()) return;
+            if (checkIfDialogEnded()) return;
 
             TextArea.text = "";
             dialogue = levels[currentLevel][chatIndex].text;
-            typingCoroutine = StartCoroutine(Typing());
+            StartTypingSafe();
         }
         else if (levels[currentLevel][chatIndex].type == "P")
         {
@@ -249,7 +285,7 @@ public class dialogueSystem : MonoBehaviour
 
                 TextArea.text = "";
                 dialogue = levels[currentLevel][chatIndex].text;
-                typingCoroutine = StartCoroutine(Typing());
+                StartTypingSafe();
             }
         }
     }
@@ -266,12 +302,15 @@ public class dialogueSystem : MonoBehaviour
 
     public void checkIfObjective()
     {
+        if (currentLevel < 0 || currentLevel >= levels.Count || chatIndex < 0 || chatIndex >= levels[currentLevel].Count)
+            return;
+
         if (levels[currentLevel][chatIndex].type == "O")
         {
             objectiveText.text = levels[currentLevel][chatIndex].text;
             PlayerPrefs.SetString("Objective", objectiveText.text);
 
-            if(!ObjectiveObject.activeInHierarchy)
+            if (!ObjectiveObject.activeInHierarchy)
                 ObjectiveObject.SetActive(true);
 
             if (checkIfDialogEnded())
@@ -287,10 +326,13 @@ public class dialogueSystem : MonoBehaviour
             checkText();
         }
     }
-    public bool checkReturnObjective() => levels[currentLevel][chatIndex].type == "O";
+    public bool checkReturnObjective() => (currentLevel >= 0 && currentLevel < levels.Count && chatIndex >= 0 && chatIndex < levels[currentLevel].Count)
+                                         && levels[currentLevel][chatIndex].type == "O";
 
     IEnumerator Typing()
     {
+        isTyping = true;
+        TextArea.text = "";
         char[] chars = dialogue.ToCharArray();
 
         for (int i = 0; i < chars.Length; i++)
@@ -315,5 +357,7 @@ public class dialogueSystem : MonoBehaviour
 
         ContinueButton.SetActive(true);
         typingCoroutine = null;
+
+        isTyping = false;
     }
 }
